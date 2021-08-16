@@ -1,5 +1,6 @@
 import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 import { AppService } from './app.service';
 
 @Controller()
@@ -10,17 +11,32 @@ export class AppController {
   ) {}
 
   @Get()
-  getHello(@Query() query: { limit: string }): number {
-    const arr: number[] = [];
+  getHello(@Query() query: { limit: string }): Promise<number> {
     const limit = parseInt(query.limit, 10);
-    for (let i = 0; i < limit; i++) {
-      arr.push(Math.random());
-    }
-    console.log(this.client);
+    const promices: any[] = [];
 
-    this.client.send<number, number[]>('calc', arr).subscribe((result) => {
-      console.log(result);
+    promices.push((limit): Promise<number[]> => {
+      return new Promise((resolve, reject) => {
+        this.client
+          .send<number[], number>({ cmd: 'gen' }, limit)
+          .subscribe((arr) => {
+            resolve(arr);
+          });
+      });
     });
-    return this.appService.getHello(arr);
+    promices.push((arr: number[]): Promise<number> => {
+      return new Promise((resolve, reject) => {
+        this.client
+          .send<number, number[]>({ cmd: 'calc' }, arr)
+          .subscribe((res) => {
+            resolve(res);
+          });
+      });
+    });
+    return promices.reduce((functionChain, nextFunction) => {
+      return functionChain.then((previousResult) =>
+        nextFunction(previousResult),
+      );
+    }, Promise.resolve(limit));
   }
 }

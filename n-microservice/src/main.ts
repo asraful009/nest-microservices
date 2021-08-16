@@ -12,5 +12,6 @@ async function bootstrap() {
     microserviceOption,
   );
   await app.listen();
+  console.log(`Micro Service is listen on 8877 port`);
 }
 bootstrap();
