@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {
-    console.log(`load appController`);
+    // console.log(`load appController`);
   }
 
   @MessagePattern({ cmd: 'calc' })

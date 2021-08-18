@@ -7,10 +7,16 @@ def getUrl(limit) :
   url = f"http://localhost:3000/?limit={limit}"
   payload = {}
   headers= {}
-  s = datetime.datetime.now()
-  response = requests.request("GET", url, headers=headers, data = payload)
-  diff = datetime.datetime.now() - s
-  print(f"{url} =>> {response.text.encode('utf8')} => {diff}")
+  i=0
+  while i<100:
+    try:
+      s = datetime.datetime.now()
+      response = requests.request("GET", url, headers=headers, data = payload)
+      diff = datetime.datetime.now() - s
+      print(f"{url} =>> {response.text.encode('utf8')} => {diff}")
+    except Exception as err:
+      pass 
+    i += 1
 
 
 def main() :

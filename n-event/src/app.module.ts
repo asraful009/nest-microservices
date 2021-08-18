@@ -18,10 +18,13 @@ import { EventServiceListener } from './listeners/event-service.listener';
       provide: 'MATH_SERVICE',
       useFactory: () =>
         ClientProxyFactory.create({
-          transport: Transport.TCP,
+          transport: Transport.RMQ,
           options: {
-            host: '127.0.0.1',
-            port: 8877,
+            urls: ['amqp://localhost:5672'],
+            queue: 'cats_queue',
+            queueOptions: {
+              durable: false,
+            },
           },
         }),
     },
