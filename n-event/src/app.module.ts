@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import {
   ClientsModule,
@@ -7,6 +8,7 @@ import {
 } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { EventServiceListener } from './listeners/event-service.listener';
 
 @Module({
@@ -28,6 +30,8 @@ import { EventServiceListener } from './listeners/event-service.listener';
           },
         }),
     },
+    { provide: APP_INTERCEPTOR, useClass: LoggingInterceptor },
   ],
+  exports: [EventServiceListener],
 })
 export class AppModule {}

@@ -7,9 +7,9 @@ export class EventServiceListener {
   @OnEvent('log')
   handleLogEvent(msg: { msg: string } = { msg: '' }) {
     // console.log(`${new Date()} : ${msg.msg}`);
-    fs.writeFile(
+    fs.appendFile(
       'access.log',
-      JSON.stringify({ dt: new Date(), msg }),
+      `${JSON.stringify({ dt: new Date(), msg })}\n`,
       (err) => {
         return;
       },

@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
+import { AppClusterService } from './app-cluster.service';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -34,4 +35,6 @@ async function bootstrapRabbitMQ() {
   await app.listen();
   console.log(`🚀 Micro Service with rebbitMQ`);
 }
-bootstrapRabbitMQ();
+// bootstrapRabbitMQ();
+
+AppClusterService.Clusterize(bootstrapRabbitMQ);
