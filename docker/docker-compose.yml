@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  rabbitmq:
+    container_name: microservice-rabbitmq
+    image: rabbitmq:management-alpine
+    ports:
+      - 15672:15672
+      - 5672:5672
+  redis:
+    container_name: microservice-redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+  solr:
+    container_name: microservice-solr
+    image: solr:latest
+    restart: always
+    ports:
+      - 8983:8983
+  postgres:
+    container_name: microservice-postgres
+    image: postgres:latest
+    restart: always
+    ports:
+      - 8983:8983
+    environment:
+      POSTGRES_PASSWORD: cyber009
+      POSTGRES_USER: cyber009
+      POSTGRES_DB: cyber009
+      ports:
+        - "5432:5432"
+  pgadmin:
+    container_name: microservice-pgadmin4
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: "123456"
+    ports:
+      - "5050:80"
