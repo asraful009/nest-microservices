@@ -1,22 +1,22 @@
 version: "3.9"
 services:
-  # rabbitmq:
-  #   container_name: microservice-rabbitmq
-  #   image: rabbitmq:management-alpine
-  #   ports:
-  #     - 15672:15672
-  #     - 5672:5672
-  # redis:
-  #   container_name: microservice-redis
-  #   image: redis:latest
-  #   ports:
-  #     - 6379:6379
-  # solr:
-  #   container_name: microservice-solr
-  #   image: solr:latest
-  #   restart: always
-  #   ports:
-  #     - 8983:8983
+  rabbitmq:
+    container_name: microservice-rabbitmq
+    image: rabbitmq:management-alpine
+    ports:
+      - 15672:15672
+      - 5672:5672
+  redis:
+    container_name: microservice-redis
+    image: redis:latest
+    ports:
+      - 6379:6379
+  solr:
+    container_name: microservice-solr
+    image: solr:latest
+    restart: always
+    ports:
+      - 8983:8983
   postgres:
     container_name: microservice-postgres
     image: postgres:latest

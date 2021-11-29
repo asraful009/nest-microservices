@@ -1,15 +1,18 @@
+import { UserEntity } from '../../entities/user/user.entity';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
   Index,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VersionColumn,
 } from 'typeorm';
 
-@Entity({ database: 'public' })
+// @Entity({ database: 'public' })
 export abstract class CustomBaseEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -26,14 +29,15 @@ export abstract class CustomBaseEntity extends BaseEntity {
   createdAt: Date;
 
   @Index()
-  @Column({ type: 'varchar', length: 300 })
-  createdBy: string;
+  @ManyToOne(() => UserEntity, (userEntity) => userEntity.id)
+  @JoinColumn()
+  createdBy: UserEntity;
 
   @Index()
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
   lastChangedDateTime: Date;
 
   @Index()
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'uuid' })
   lastChangedBy: string;
 }
